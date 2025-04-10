@@ -102,7 +102,7 @@ def add():
     speed = eg.integerbox("How much speed do you want to give the monster?(minimum is 1 and max is 25)", "Add Card", upperbound = 25, lowerbound = 1) 
     stealth = eg.integerbox("How much stealth do you want to give the monster?(minimum is 1 and max is 25)", "Add Card", upperbound = 25, lowerbound = 1) 
     cunning = eg.integerbox("How much cunning do you want to give the monster?(minimum is 1 and max is 25)", "Add Card", upperbound = 25, lowerbound = 1)
-    new_dict = {
+    new_dict = { # Makes the data so if the player wants to change it then they can
         name : {
             "Strength" : strength,
             "Speed" : speed,
@@ -110,7 +110,7 @@ def add():
             "Cunning" : cunning
         }
     }
-    while eg.buttonbox(f"Are you happy with this or do you want to make some changes?\n{new_dict}", "Add Card", ["Change", "Done"]) == "Change": #This will loop till you're satisfied though it's not really working right
+    while eg.buttonbox(f"Are you happy with this or do you want to make some changes?\n{new_dict}", "Add Card", ["Change", "Done"]) == "Change": #This will loop till you're satisfied though it's now working
         new_name = eg.enterbox(f"What name do you want for the monster instead of {name}", "Add Card")
         while new_name.title() in Cards.keys() or new_name in Cards.keys():
             eg.msgbox(f"{new_name} already exists, try again", "error")
@@ -119,15 +119,23 @@ def add():
         new_speed = eg.integerbox(f"How much speed do you want to give the monster instead of {speed}?(minimum is 1 and max is 25)", "Add Card", upperbound = 25, lowerbound = 1) 
         new_stealth = eg.integerbox(f"How much stealth do you want to give the monster instead of {stealth}?(minimum is 1 and max is 25)", "Add Card", upperbound = 25, lowerbound = 1) 
         new_cunning = eg.integerbox(f"How much cunning do you want to give the monster instead of {cunning}?(minimum is 1 and max is 25)", "Add Card", upperbound = 25, lowerbound = 1)
-        Cards[new_name] : {
-            "Strength" : new_strength,
-            "Speed" : new_speed,
-            "Stealth" : new_stealth,
-            "Cunning" : new_cunning
+        name = new_name
+        strength = new_strength
+        speed = new_speed
+        stealth = new_stealth
+        cunning = new_cunning
+
+        new_dict = { # I used the same name as it replaces the previous data
+            name : {
+                "Strength" : strength,
+                "Speed" : speed,
+                "Stealth" : stealth,
+                "Cunning" : cunning
+            }
         }
         if eg.buttonbox(f"Are you happy with this or do you want to make some changes?\n{new_dict}", "Add Card", ["Change", "Done"]) == "Done":
             break
-    Cards.update(new_dict)
+    Cards.update(new_dict) #finally when you're done changeing it, the dict in then added into the 'Cards' dict
     eg.msgbox(Cards)
     user_choice = eg.buttonbox("Do you want to return to Main screen? or end this program(Exit)", "Add Card", ["Main", "Exit"])
     if user_choice == "Main":
@@ -153,6 +161,7 @@ def search():
         new_speed = eg.integerbox(f"How much speed do you want to give the monster instead of {Cards[card]['Speed']}?(minimum is 1 and max is 25)", "Add Card", upperbound = 25, lowerbound = 1) 
         new_stealth = eg.integerbox(f"How much stealth do you want to give the monster instead of {Cards[card]['Stealth']}?(minimum is 1 and max is 25)", "Add Card", upperbound = 25, lowerbound = 1) 
         new_cunning = eg.integerbox(f"How much cunning do you want to give the monster instead of {Cards[card]['Cunning']}?(minimum is 1 and max is 25)", "Add Card", upperbound = 25, lowerbound = 1)
+        del Cards[card]
         Cards[new_name] = {
             "Strength" : new_strength,
             "Speed" : new_speed,
